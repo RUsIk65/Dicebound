@@ -167,8 +167,8 @@ export function GuideTour({ mode, isHost, onClose }: { mode: 'tavern' | 'tableto
     {layout && <svg className="guide-shade" width="100%" height="100%" viewBox={`0 0 ${layout.viewport.width} ${layout.viewport.height}`} preserveAspectRatio="none" aria-hidden="true">
       <defs><mask id={mask}><rect width="100%" height="100%" fill="white"/>{layout.target && <rect x={layout.target.x} y={layout.target.y} width={layout.target.width} height={layout.target.height} rx="9" fill="black"/>}</mask></defs>
       <rect width="100%" height="100%" fill="#090509" fillOpacity=".72" mask={`url(#${mask})`}/>
-      {layout.target && <rect className="guide-spotlight" x={layout.target.x} y={layout.target.y} width={layout.target.width} height={layout.target.height} rx="9" fill="none" stroke="#dfc38a" strokeWidth="2"/>}
-      {layout.connector && <g><line {...layout.connector} stroke="#d8bc83" strokeWidth="1.5" strokeDasharray="3 4" opacity=".8"/><circle cx={layout.connector.x2} cy={layout.connector.y2} r="3" fill="#e4ca91"/></g>}
+      {layout.target && <rect className="guide-spotlight" x={layout.target.x} y={layout.target.y} width={layout.target.width} height={layout.target.height} rx="9" fill="none" stroke="var(--accent)" strokeWidth="2"/>}
+      {layout.connector && <g><line {...layout.connector} stroke="var(--accent)" strokeWidth="1.5" strokeDasharray="3 4" opacity=".8"/><circle cx={layout.connector.x2} cy={layout.connector.y2} r="3" fill="var(--accent)"/></g>}
     </svg>}
     <div ref={companion} className={`guide-companion ${layout ? 'positioned' : ''} ${layout?.mirror ? 'mirrored' : ''}`} style={layout ? { left: layout.left, top: layout.top } as CSSProperties : undefined}>
       <audio ref={voice.attachAudio} preload="none" data-finn-audio hidden/><div className={`guide-character ${voice.status === 'speaking' ? 'is-speaking' : ''}`}><Finn/><div className="guide-character-name">Финн<span>Хранитель таверны</span></div></div>

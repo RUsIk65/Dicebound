@@ -1,28 +1,39 @@
-/* Obsidian, garnet resin and antique gold, inspired by the supplied dice. */
-:root{--bg:#100c0e;--panel:#1b1417;--panel-2:#261a1f;--border:#3e2a31;--text:#f0e7db;--muted:#b1a09c;--gold:#d5ad70;--gold-dark:#2b1b18;--green:#bea99b}
-body{background:radial-gradient(ellipse at 90% 0,#471a252c,transparent 55%),var(--bg)}
-.sidebar{background:linear-gradient(180deg,#160f13,#110e10);border-color:#38252d}
-.topbar{background:#110d10a6}.logo>span{color:#f1e5d4}.logo small{color:#a28d83}
-.nav-item.active{background:linear-gradient(100deg,#4b222c,#2b1920);border-color:#79503d;color:#efcf9b}
-.nav-item:hover{background:#2b1b22}.host-promo{background:radial-gradient(ellipse at top right,#71333e40,transparent 80%),#21151b;border-color:#493039}
-.local-badge,.connection{color:#baa494}.local-badge i,.connection i{background:#d1a965;box-shadow:0 0 8px #d1a96540}
-.hero{height:370px;background:#140e12;border:1px solid #674339;box-shadow:0 18px 50px #0003,inset 0 1px #edd3b012}
-.hero-dice-art{position:absolute;inset:0 0 0 31%;overflow:hidden}
-.hero-dice-art img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:brightness(.96) saturate(.9);display:block}
-.hero-shade{background:linear-gradient(90deg,#160f13 0%,#160f13fa 24%,#160f13cb 43%,#160f1320 70%),linear-gradient(0deg,#110b10a6,transparent 45%)}
-.hero-content{padding:39px 38px}.hero h1{font-size:41px;color:#f3e8d8;text-shadow:0 2px 15px #0003}.hero p{color:#c3b3aa}.hero .eyebrow{color:#d0ab80}.hero-caption{color:#e1c5a3}.hero-caption>span{color:#c4a58a}
-.button.gold{background:linear-gradient(135deg,#8e3548,#632332);border-color:#b48055;color:#f8e7d0;box-shadow:0 4px 16px #38061045,inset 0 1px #f2c39826}
-.button.gold:hover{background:linear-gradient(135deg,#a94457,#7c2c3f);border-color:#e1ba80}.button.outline,.button.glass{background:#20151b9c;border-color:#664139;color:#e6d5c5}.button.outline:hover,.button.glass:hover{background:#3a222c;border-color:#b08157}
-.search,.select-wrap{background:#1b1418;border-color:#473039}.search:focus-within{border-color:#c79c64}
-.adventure-card{background:linear-gradient(155deg,#25191e,#1a1317);border-color:#4b313a;box-shadow:0 6px 20px #0002}.adventure-card:hover{border-color:#a57653;box-shadow:0 12px 28px #0004}
-.card-art-shade{background:linear-gradient(0deg,#25191ef5,transparent 75%)}.card-content h3{color:#efdfca}.card-content>p{color:#baaaa3}.card-metadata{color:#c0a99b}.card-bottom{border-color:#483039}
-.room-tag,.room-tag.beginner{background:#27151fe8;border-color:#b58c5d7a;color:#eed0a1}.bookmark:hover,.bookmark.bookmarked{background:#572a38;color:#efd1a0}
-.join-button{background:#4f2433;border-color:#966544;color:#f1cd99}.join-button:hover{background:#793447;border-color:#d0a36b}
-.how-strip{background:linear-gradient(110deg,#321b25,#1a1217);border-color:#55383d}.outlined-die{border-color:#8c6648;color:#d7ad73}.how-strip p,.page-footer{color:#a59288}
-.game-header,.party-panel,.chat-panel{background:#181115}.table-panel{background:#120d10}.map-wrapper{background:#181014}.table-toolbar,.character-bar,.dice-tray{background:#21161c}.panel-heading{color:#ead9c8}
+/* Dicebound: black surfaces, burgundy actions and carved display lettering. */
+@font-face{font-family:"Cormorant SC";src:url('/fonts/CormorantSC-Bold.ttf') format('truetype');font-style:normal;font-weight:700;font-display:swap}
+:root{--bg:#08080a;--panel:#111114;--panel-2:#1b1217;--border:#33212a;--text:#f4f1f3;--muted:#afa5ac;--accent:#ed829c;--accent-dark:#3b0c1c;--burgundy:#871733;--green:#bca5ae;--font-display:"Cormorant SC",Georgia,serif}
+body{background:radial-gradient(ellipse at 90% 0,#5c0b231c,transparent 50%),var(--bg)}
+::selection{background:#871733;color:#fff}input[type=checkbox]{accent-color:var(--burgundy)}
+.sidebar{background:linear-gradient(180deg,#0c0b0e,#08080a);border-color:#2d1d25}
+.topbar{background:#09090bf2}.logo{color:#c34060}.logo>span{font-family:var(--font-display);font-size:25px;font-weight:700;letter-spacing:-.5px;text-transform:uppercase;color:#faf6f8}.logo>span>span{color:#d25574}.logo small{color:#a3959f;letter-spacing:2.6px}
+.nav-item.active{background:linear-gradient(100deg,#4b0e22,#230c15);border-color:#8e2645;color:#f3c5d2}.nav-item:hover{background:#241019}.nav-count{background:#4b1426;color:#f6bdce}
+.host-promo{background:radial-gradient(ellipse at top right,#78133342,transparent 80%),#140c11;border-color:#4a1e30}.promo-icon{color:#de6785}.host-promo button{color:#f1b8c8;border-color:#512437}
+.local-badge,.connection{color:#bba8b1}.local-badge i,.connection i,.chat-live-dot{background:#c63459;box-shadow:0 0 8px #b91d454a}
+.hero{height:382px;background:#0b090c;border:1px solid #542133;box-shadow:0 18px 50px #0004,inset 0 1px #e9c1d00a}
+.hero-dice-art{position:absolute;inset:0 0 0 31%;overflow:hidden}.hero-dice-art img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:brightness(.82) saturate(.85);display:block}
+.hero-shade{background:linear-gradient(90deg,#0b090c 0%,#0b090cfa 23%,#0b090ccb 43%,#0b090c15 73%),linear-gradient(0deg,#08080aa6,transparent 50%)}
+.hero-content{padding:38px}.hero h1{font-family:var(--font-display);font-size:47px;font-weight:700;line-height:1.02;letter-spacing:-.5px;text-transform:uppercase;color:#faf5f7;text-shadow:0 2px 15px #0004;margin:21px 0 17px}
+.hero p{color:#c5b8c0}.hero .eyebrow{color:#e27793;letter-spacing:2px}.hero-caption{color:#e3c2ce}.hero-caption>span{color:#c48a9e}
+.section-heading h2,.card-content h3,.host-promo h3,.how-strip h3,.modal h2,.game-title h1,.empty h3,.guide-speech h2,.guide-welcome h2{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.1px;color:#f6eef2}
+.section-heading h2{font-size:31px}.card-content h3{font-size:24px;line-height:1.12}.host-promo h3{font-size:19px;line-height:1.2}.how-strip h3{font-size:22px}.modal h2{font-size:32px}.game-title h1{font-size:25px}
+.button.gold{background:linear-gradient(135deg,#941b3b,#680e29);border-color:#bc3658;color:#fff4f7;box-shadow:0 4px 18px #52021d45,inset 0 1px #f7a9c01c}
+.button.gold:hover{background:linear-gradient(135deg,#af2449,#84143a);border-color:#e46285}.button.outline,.button.glass{background:#130c129c;border-color:#6b2940;color:#edd4de}.button.outline:hover,.button.glass:hover{background:#3a1020;border-color:#b74263}
+.search,.select-wrap{background:#111014;border-color:#3e2532}.search:focus-within{border-color:#c34b6c}.search input::placeholder{color:#a3929e}.select-wrap{color:#c2afb9}
+.adventure-card{background:linear-gradient(155deg,#1c1017,#100c10);border-color:#472334;box-shadow:0 6px 20px #0003}.adventure-card:hover{border-color:#a13153;box-shadow:0 12px 28px #0005}
+.card-art-shade{background:linear-gradient(0deg,#1c1017f5,transparent 75%)}.card-content>p{color:#baacb6}.card-metadata{color:#c0a6b5}.card-bottom{border-color:#3e2130}
+.room-tag,.room-tag.beginner{background:#220b17ed;border-color:#9e3a5c99;color:#f0bdcf}.bookmark:hover,.bookmark.bookmarked{background:#57132e;color:#ffd2e0}
+.join-button{background:#5e1230;border-color:#a43055;color:#ffe5ee}.join-button:hover{background:#891c40;border-color:#d5577d}
+.how-strip{background:linear-gradient(110deg,#260c19,#100a0f);border-color:#4b2034}.outlined-die{border-color:#8d2b4e;color:#df688f}.how-strip p,.page-footer{color:#a995a2}
+.game-header,.party-panel,.chat-panel{background:#0e0c10}.table-panel{background:#09080c}.map-wrapper{background:#110b11}.table-toolbar,.character-bar,.dice-tray{background:#160d15}.panel-heading{color:#e7d7e2}
+.member-card{background:#181018;border-color:#412337}.member-card.chosen,.initiative-row.current{border-color:#a33761;background:linear-gradient(100deg,#481027,#240e1b);color:#f1bdcf}.health-line>span{background:#bb4f76}.initiative-number{background:#38152a}
 .dice-glyph{display:block;width:34px;height:37px;overflow:visible;filter:drop-shadow(0 3px 3px #0008);transition:transform .2s,filter .2s}
-.dice-choices button.active{background:#522334;border-color:#b48a58;color:#f4d7a7}.dice-choices button:hover .dice-glyph{transform:translateY(-2px)}.dice-choices button.active .dice-glyph{filter:drop-shadow(0 0 6px #ce6a6550)}
-.roll-overlay{background:radial-gradient(ellipse,#4b172aeb,#180f17f0);border-color:#c99b61}.modal{border-color:#674139;background:#21161c}.modal-form input,.modal-form textarea,.modal-form select{background:#171014;border-color:#52363d}
-.guide-speech{background:radial-gradient(ellipse at top left,#77364438,transparent 85%),#24161d;border-color:#b08b59}
-@media(max-width:980px){.hero{height:360px}.hero h1{font-size:37px}.hero-dice-art{left:20%}}
-@media(max-width:640px){.hero{height:398px}.hero-content{padding:28px 19px}.hero h1{font-size:29px}.hero-dice-art{left:0;opacity:.7}.hero-dice-art img{object-position:53% 40%}.hero-shade{background:linear-gradient(90deg,#160f13ee,#160f1394),linear-gradient(0deg,#160f13a8,transparent)}.hero-caption{right:15px;bottom:13px}.hero-caption>span{font-size:7px}.hero-caption b{display:none}.dice-glyph{width:30px;height:33px}}
+.dice-choices button.active{background:#4e102b;border-color:#c34a76;color:#ffe0ec}.dice-choices button:hover .dice-glyph{transform:translateY(-2px)}.dice-choices button.active .dice-glyph{filter:drop-shadow(0 0 6px #e9598648)}
+.roll-overlay{background:radial-gradient(ellipse,#4d0b29ed,#10080ff5);border-color:#bf3c6b;color:#f0bccf}.roll-overlay>strong{color:#ffdfeb}.roll-overlay.critical{box-shadow:0 0 70px #bc245b50}
+.roll-card{background:#21101d;border-color:#612344;color:#e981ac}.roll-card>span{color:#ddc3d2}.roll-card strong{color:#ffd0e4}.roll-card.critical{border-color:#d44b86}
+.feed-tabs button.active{color:#f3bbd3;border-color:#b72e65}.message.story{background:#210d1b;border-color:#55213f}.message.story p{font-family:Georgia,serif;color:#dcc9d4}.message.story .message-author{color:#eea8c7}
+.chat-compose>div{background:#130d12;border-color:#50243c}.chat-compose>div:focus-within{border-color:#b54273}.chat-compose button{background:#861d4a;color:#fff0f7}
+.modal{border-color:#69223e;background:#140d13}.modal-form input,.modal-form textarea,.modal-form select{background:#0b090d;border-color:#51243c;color:#f3e9ef}
+.guide-tour .guide-speech{background:radial-gradient(ellipse at top left,#72133726,transparent 85%),#160d14;border-color:#99335b}.guide-tour .guide-speech h2{font-size:28px;line-height:1.05}.guide-tour .guide-speech p{color:#cdb9c6}.guide-card-top>span,.guide-character-name{color:#efacc7}.guide-tour .guide-progress>span.visited{background:#c23c71}.guide-tour .voice-playback{background:linear-gradient(90deg,#8b163f,#e46c9d)}
+.guide-welcome{background:linear-gradient(135deg,#2a0d20,#130b12);border-color:#9d335c}.guide-welcome::before{background:#240e1d;border-color:#9d335c}.guide-welcome-heading{color:#e66e9b}.guide-welcome h2{font-size:24px;line-height:1.1}.guide-welcome p{color:#ccb7c5}.guide-welcome-actions{border-color:#5b233f}.guide-welcome-actions button:last-child{color:#f4b3d0}
+@media(max-width:1200px){.logo>span{font-size:22px}.host-promo h3{font-size:17px}}
+@media(max-width:980px){.hero{height:365px}.hero h1{font-size:40px}.hero-dice-art{left:20%}}
+@media(max-width:640px){.hero{height:auto;min-height:412px}.hero-content{padding:27px 19px 40px}.hero h1{font-size:31px;line-height:1.03;letter-spacing:-.35px}.hero-dice-art{left:0;opacity:.7}.hero-dice-art img{object-position:53% 40%}.hero-shade{background:linear-gradient(90deg,#0b090cee,#0b090c94),linear-gradient(0deg,#0b090ca8,transparent)}.hero-caption{right:15px;bottom:13px}.hero-caption>span{font-size:7px}.hero-caption b{display:none}.section-heading h2{font-size:26px}.card-content h3{font-size:24px}.game-title h1{font-size:18px}.how-strip h3{font-size:19px}.dice-glyph{width:30px;height:33px}.guide-tour .guide-speech h2{font-size:25px}.guide-welcome h2{font-size:22px}}

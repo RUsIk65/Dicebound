@@ -15,20 +15,20 @@
 }
 .guide-tour::backdrop { background: transparent; }
 .guide-voice { display:flex; align-items:center; gap:9px; position:relative; overflow:hidden; margin-top:16px; padding:8px 9px 10px; background:#170f14; border:1px solid #67424b; border-radius:6px; }
-.guide-voice-toggle { display:flex; align-items:center; gap:7px; font-size:10px; color:#ecd1a5; min-height:26px; }
-.guide-repeat { display:grid; place-items:center; margin-left:auto; width:28px; height:28px; color:#cfaa7c; border-radius:4px; }
+.guide-voice-toggle { display:flex; align-items:center; gap:7px; font-size:10px; color:#e4adb9; min-height:26px; }
+.guide-repeat { display:grid; place-items:center; margin-left:auto; width:28px; height:28px; color:#d2798c; border-radius:4px; }
 .guide-repeat:hover { background:#4b2835; }
-.voice-wave { display:flex; align-items:center; gap:2px; height:20px; margin-left:auto; color:#d5a274; }
+.voice-wave { display:flex; align-items:center; gap:2px; height:20px; margin-left:auto; color:#d2778b; }
 .voice-wave i { display:block; width:2px; height:4px; background:currentColor; border-radius:2px; }
 .voice-wave.playing i { animation:finn-audio .65s ease-in-out infinite alternate; }
 .voice-wave i:nth-child(2) { animation-delay:-.2s; }.voice-wave i:nth-child(3) { animation-delay:-.45s; }.voice-wave i:nth-child(4) { animation-delay:-.1s; }
-.voice-playback { position:absolute; left:0; bottom:0; height:2px; background:linear-gradient(90deg,#923b50,#e3b87c); transition:width .25s linear; }
-.guide-speech .guide-voice-caption { font-family:"Segoe UI",sans-serif; font-size:9px; color:#bba394; min-height:0; line-height:1.5; margin:5px 0 0; }
+.voice-playback { position:absolute; left:0; bottom:0; height:2px; background:linear-gradient(90deg,#923b50,#d78899); transition:width .25s linear; }
+.guide-speech .guide-voice-caption { font-family:"Segoe UI",sans-serif; font-size:9px; color:#ada2a4; min-height:0; line-height:1.5; margin:5px 0 0; }
 .is-speaking .guide-mouth { transform-box:fill-box; transform-origin:center; animation:finn-talk .32s ease-in-out infinite alternate; }
 @keyframes finn-audio { to { height:18px; } }
 @keyframes finn-talk { from { transform:scaleY(.55); } to { transform:scaleY(1.7); } }
 .guide-shade { position: absolute; inset: 0; pointer-events: none; }
-.guide-spotlight { filter: drop-shadow(0 0 5px #dabd774d); }
+.guide-spotlight { filter: drop-shadow(0 0 5px #d47d904d); }
 .guide-companion {
   position: absolute;
   display: flex;
@@ -55,8 +55,8 @@
 .guide-eyes { animation: finn-blink 6s infinite; transform-box: fill-box; transform-origin: center; }
 .guide-magic-glow { animation: finn-glow 2.6s ease-in-out infinite; }
 .guide-magic-sparks { animation: finn-sparks 3.6s ease-in-out infinite; }
-.guide-character-name { text-align: center; margin-top: 5px; padding-left: 10px; color: #e8d5a8; font-family: Georgia,serif; font-size: 19px; text-shadow: 0 2px 8px #000; }
-.guide-character-name span { display: block; font-family: "Segoe UI",sans-serif; font-size: 9px; color: #b7ab9d; letter-spacing: .4px; margin-top: 4px; }
+.guide-character-name { text-align: center; margin-top: 5px; padding-left: 10px; color: #e4adb8; font-family: var(--font-display); font-size: 19px; text-shadow: 0 2px 8px #000; }
+.guide-character-name span { display: block; font-family: "Segoe UI",sans-serif; font-size: 9px; color: #b0a4a7; letter-spacing: .4px; margin-top: 4px; }
 .guide-speech {
   position: relative;
   min-width: 0;
@@ -64,35 +64,35 @@
   max-height: calc(100dvh - 48px);
   overflow-y: auto;
   padding: 20px 22px 14px;
-  border: 1px solid #9e8b5c;
+  border: 1px solid #857578;
   border-radius: 13px;
   background: radial-gradient(ellipse at top left, #45363a40, transparent 85%), #261d20;
-  box-shadow: 0 15px 60px #0007, inset 0 1px 0 #f0d29614;
+  box-shadow: 0 15px 60px #0007, inset 0 1px 0 #e1a5b214;
   animation: finn-speech .3s ease-out both;
 }
 .guide-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 19px; }
-.guide-card-top>span { display: flex; align-items: center; gap: 7px; color: #cebc8b; letter-spacing: 1.4px; font-size: 9px; }
-.guide-close { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; margin: -6px -7px -6px 0; border-radius: 5px; color: #b1a69a; }
-.guide-close:hover { background: #413337; color: #f0dfb4; }
+.guide-card-top>span { display: flex; align-items: center; gap: 7px; color: #d68395; letter-spacing: 1.4px; font-size: 9px; }
+.guide-close { display: grid; place-items: center; width: 26px; height: 26px; padding: 0; margin: -6px -7px -6px 0; border-radius: 5px; color: #aba0a2; }
+.guide-close:hover { background: #413337; color: #d4d0d1; }
 .guide-copy { animation: finn-speech .22s ease-out both; }
-.guide-step-label { display: flex; justify-content: space-between; color: #b3a79a; font-size: 10px; gap: 10px; margin-bottom: 9px; }
-.guide-step-label>span { font-size: 9px; color: #908476; white-space: nowrap; }
-.guide-speech h2 { font-family: Georgia,serif; font-size: 25px; line-height: 1.17; font-weight: 400; letter-spacing: -.4px; color: #eee7d0; margin: 0 0 12px; }
+.guide-step-label { display: flex; justify-content: space-between; color: #aca1a3; font-size: 10px; gap: 10px; margin-bottom: 9px; }
+.guide-step-label>span { font-size: 9px; color: #8b7b7e; white-space: nowrap; }
+.guide-speech h2 { font-family: var(--font-display); font-size: 25px; line-height: 1.17; font-weight: 400; letter-spacing: -.4px; color: #e1ddde; margin: 0 0 12px; }
 .guide-speech h2:focus { outline: none; }
-.guide-speech p { font-size: 12px; line-height: 1.8; color: #c9bdb0; min-height: 108px; }
+.guide-speech p { font-size: 12px; line-height: 1.8; color: #c1b8ba; min-height: 108px; }
 .guide-progress { display: flex; gap: 4px; margin-top: 22px; }
 .guide-progress>span { flex: 1; height: 3px; background: #413337; border-radius: 3px; transition: background .2s; }
-.guide-progress>span.visited { background: #d0b379; }
+.guide-progress>span.visited { background: #d2778b; }
 .guide-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 17px; }
-.guide-back { display: flex; align-items: center; gap: 6px; padding: 8px 0; font-size: 11px; color: #beb1a2; }
+.guide-back { display: flex; align-items: center; gap: 6px; padding: 8px 0; font-size: 11px; color: #b5abad; }
 .guide-back:disabled { opacity: .3; }
 .guide-next { min-width: 133px; font-size: 11px; }
 .guide-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid #413337; }
-.guide-card-footer>button { padding: 3px 0; font-size: 9px; color: #9c8d7b; }
-.guide-card-footer>button:hover { color: #d0c393; }
+.guide-card-footer>button { padding: 3px 0; font-size: 9px; color: #938487; }
+.guide-card-footer>button:hover { color: #d88b9c; }
 .guide-card-footer>span { font-size: 8px; color: #856f68; }
 .guide-card-footer i { font-style: normal; margin: 0 3px; }
-.guide-trigger:hover>svg { color: var(--gold); }
+.guide-trigger:hover>svg { color: var(--accent); }
 @keyframes finn-arrives { from { opacity: 0; transform: translateY(18px) scale(.96); } to { opacity: 1; transform: none; } }
 @keyframes finn-speech { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 @keyframes finn-breathe { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-4px) rotate(1deg); } }
