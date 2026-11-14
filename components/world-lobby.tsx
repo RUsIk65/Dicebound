@@ -1,6 +1,8 @@
 'use client';
 
-import { ArrowDown, ArrowRight, BookOpen, Castle, Compass, Crown, Dice5, Flag, Map, Plus, Shield, Sparkles, Star, Swords, Trees, Users } from 'lucide-react';
+import { useState } from 'react';
+import { WorldMap } from '@/components/world-map';
+import { ArrowRight, BookOpen, Compass, Crown, Dice5, Flag, Plus, Shield, Sparkles, Star, Users } from 'lucide-react';
 import type { RoomSummary, Session } from '@/lib/game-types';
 
 type WorldLobbyProps = {
@@ -8,31 +10,19 @@ type WorldLobbyProps = {
   myRooms: RoomSummary[];
   saved: string[];
   session: Session | null;
-  activeTab: string;
   ready: boolean;
-  busy: boolean;
   onBrowse: (tab: string, scene?: string) => void;
-  onJoin: (id: string) => void;
   onCreate: () => void;
   onProfile: () => void;
   onGuide: () => void;
 };
 
-const adventureForms = { one: 'приключение', few: 'приключения', many: 'приключений', other: 'приключений', zero: 'приключений', two: 'приключения' };
-const plural = new Intl.PluralRules('ru');
-
-const regions = [
-  { scene: 'forest', name: 'Изумрудный лес', caption: 'Там, где шепчут деревья', Icon: Trees },
-  { scene: 'ruins', name: 'Лунные руины', caption: 'Истории забытого королевства', Icon: Castle },
-  { scene: 'crypt', name: 'Чёрная корона', caption: 'Тайны под каменными сводами', Icon: Swords },
-];
-
-export function WorldLobby({ rooms, myRooms, saved, session, activeTab, ready, busy, onBrowse, onJoin, onCreate, onProfile, onGuide }: WorldLobbyProps) {
+export function WorldLobby({ rooms, myRooms, saved, session, ready, onBrowse, onCreate, onProfile, onGuide }: WorldLobbyProps) {
   const savedRooms = rooms.filter(room => saved.includes(room.id));
-  const continuations = [...myRooms, ...savedRooms.filter(room => !myRooms.some(mine => mine.id === room.id))].slice(0, 3);
+  const [expanded, setExpanded] = useState(false);
 
-  return <section className="world-lobby" aria-labelledby="world-title">
-    <img className="world-art" src="/images/world-map-desk.png" alt="Развёрнутая карта фэнтезийного мира на столе мастера: горы, леса, замки и дороги между ними." fetchPriority="high"/>
+  return <section className={`world-lobby interactive-world ${expanded ? 'map-expanded' : ''}`} aria-labelledby="world-title">
+    <WorldMap rooms={rooms} ready={ready} expanded={expanded} onExpand={() => { setExpanded(value => !value); requestAnimationFrame(() => document.querySelector('.interactive-world')?.scrollIntoView({ block: 'start', behavior: 'auto' })); }} onRegion={scene => onBrowse('discover', scene)}/>
     <div className="world-vignette" aria-hidden="true"/>
     <span className="world-corner corner-tl" aria-hidden="true"/><span className="world-corner corner-tr" aria-hidden="true"/>
     <span className="world-corner corner-bl" aria-hidden="true"/><span className="world-corner corner-br" aria-hidden="true"/>
@@ -48,44 +38,18 @@ export function WorldLobby({ rooms, myRooms, saved, session, activeTab, ready, b
       <div className="world-meta"><span><Users size={12}/> Играйте вместе</span><span><Dice5 size={12}/> D&D в браузере</span></div>
     </div>
 
-    <div className="world-locations" role="group" aria-label="Выберите мир приключения">
-      {regions.map(({ scene, name, caption, Icon }) => {
-        const count = rooms.filter(room => room.scene === scene).length;
-        return <button className={`world-pin pin-${scene}`} key={scene} onClick={() => onBrowse('discover', scene)} aria-label={`${name}: показать приключения`}>
-          <span className="world-pin-seal"><Icon size={20}/></span>
-          <span className="world-pin-label"><b>{name}</b><small>{ready ? `${count} ${adventureForms[plural.select(count)]}` : 'Открываем карту…'}</small></span>
-          <span className="world-pin-caption">{caption}</span>
-        </button>;
-      })}
-      <span className="world-map-caption"><Map size={12}/> Выберите место — начните историю</span>
-    </div>
-
     <aside className="world-menu" aria-label="Меню приключений">
       <div className="world-menu-heading"><span/> ВАША ИСТОРИЯ <span/></div>
-      <nav data-tour="navigation" aria-label="Главное меню">
+      <nav aria-label="Главное меню">
         <button className="menu-plaque menu-plaque-primary" onClick={onCreate}><Plus size={18}/><span>Новое приключение<small>Станьте ведущим своей истории</small></span><ArrowRight size={15}/></button>
-        <button data-tour="discover" aria-current={activeTab === 'discover' ? 'page' : undefined} className="menu-plaque" onClick={() => onBrowse('discover')}><Compass size={18}/><span>Найти отряд<small>Открытые лобби и новые друзья</small></span></button>
-        <button data-tour="mine" aria-current={activeTab === 'mine' ? 'page' : undefined} className="menu-plaque" onClick={() => onBrowse('mine')}><Flag size={18}/><span>Продолжить путь<small>Мои приключения</small></span>{myRooms.length > 0 && <em>{myRooms.length}</em>}</button>
-        <button data-tour="saved" aria-current={activeTab === 'saved' ? 'page' : undefined} className="menu-plaque" onClick={() => onBrowse('saved')}><Star size={18}/><span>Избранные истории<small>Отложенные на потом</small></span>{savedRooms.length > 0 && <em>{savedRooms.length}</em>}</button>
-        <button data-tour="profile" className="menu-plaque" onClick={onProfile}><Shield size={18}/><span>Мой персонаж<small>{session ? `${session.name} · ${session.className || 'Выберите класс'}` : 'У каждой легенды есть имя'}</small></span></button>
+        <button className="menu-plaque" onClick={() => onBrowse('discover')}><Compass size={18}/><span>Доска приключений<small>Открытые лобби и новые друзья</small></span></button>
+        <button className="menu-plaque" onClick={() => onBrowse('mine')}><Flag size={18}/><span>Ваши приключения<small>Возвращайтесь к своему отряду</small></span>{myRooms.length > 0 && <em>{myRooms.length}</em>}</button>
+        <button className="menu-plaque" onClick={() => onBrowse('saved')}><Star size={18}/><span>Сохранённые истории<small>Отложенные на потом</small></span>{savedRooms.length > 0 && <em>{savedRooms.length}</em>}</button>
+        <button className="menu-plaque" onClick={onProfile}><Shield size={18}/><span>Мой персонаж<small>{session ? `${session.name} · ${session.className || 'Выберите класс'}` : 'У каждой легенды есть имя'}</small></span></button>
       </nav>
       <button className="world-finn" onClick={onGuide}><span className="finn-medallion"><Sparkles size={17}/></span><span>Нужен проводник?<small>Финн покажет, с чего начать</small></span><ArrowRight size={13}/></button>
     </aside>
 
-    <section className="campaign-dock" aria-labelledby="campaign-title">
-      <div className="campaign-heading"><h2 id="campaign-title"><BookOpen size={15}/> Ваши истории</h2><span>СЛЕДУЮЩАЯ ГЛАВА ЖДЁТ</span></div>
-      {!ready ? <div className="campaign-empty" role="status"><Compass size={24}/><p>Открываем журнал путешествий…</p></div> : continuations.length ? <div className="campaign-slots">
-        {continuations.map(room => {
-          const joined = myRooms.some(mine => mine.id === room.id);
-          const Icon = regions.find(region => region.scene === room.scene)?.Icon || Castle;
-          return <button className="campaign-slot" key={room.id} disabled={busy || (!joined && room.memberCount >= room.maxPlayers)} onClick={() => onJoin(room.id)} aria-label={`${joined ? 'Продолжить' : 'Открыть'}: ${room.title}`}>
-            <span className={`campaign-emblem emblem-${room.scene}`}><Icon size={23}/></span><span><small>{joined ? 'ВЫ В ОТРЯДЕ' : 'ИЗБРАННОЕ'}</small><b>{room.title}</b><em>{room.memberCount}/{room.maxPlayers} героев · {room.duration}</em></span><ArrowRight size={15}/>
-          </button>;
-        })}
-        {continuations.length < 3 && <button className="campaign-slot campaign-new" onClick={onCreate}><span className="campaign-emblem"><Plus size={23}/></span><span><small>ЧИСТАЯ СТРАНИЦА</small><b>Новая легенда</b><em>Пригласите друзей за свой стол</em></span></button>}
-      </div> : <div className="campaign-empty"><BookOpen size={25}/><p><b>Здесь будут ваши приключения.</b><span>Вступите в отряд или сохраните историю на доске ниже.</span></p><button onClick={() => onBrowse('discover')} aria-label="Посмотреть все приключения"><ArrowRight size={19}/></button></div>}
-    </section>
-    <button className="world-scroll" onClick={() => onBrowse('discover')} aria-label="Перейти к доске приключений"><ArrowDown size={15}/></button>
   </section>;
 }
 

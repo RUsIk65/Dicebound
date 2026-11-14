@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import './obsidian-theme.css';
 import './world-lobby.css';
+import './world-map.css';
 
 export const metadata: Metadata = {
   title: 'Dicebound — Найди свой отряд',

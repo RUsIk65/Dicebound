@@ -37,12 +37,14 @@ export default function Dicebound() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [modal, setModal] = useState<'create' | 'profile' | null>(null);
+  const [tab, setTab] = useState('map');
+  const guideOriginTab = useRef('map');
   const [guideOpen, setGuideOpen] = useState(false);
   const [guideWelcomeOpen, setGuideWelcomeOpen] = useState(true);
-  const closeGuide = useCallback(() => setGuideOpen(false), []);
+  const closeGuide = useCallback(() => { setGuideOpen(false); setTab(guideOriginTab.current); }, []);
   const dismissGuideWelcome = useCallback(() => setGuideWelcomeOpen(false), []);
-  const openGuide = useCallback(() => { setGuideWelcomeOpen(false); setGuideOpen(true); }, []);
-  const [tab, setTab] = useState('discover');
+  const openGuide = useCallback(() => { guideOriginTab.current = tab; setGuideWelcomeOpen(false); setGuideOpen(true); }, [tab]);
+  const revealGuideStep = useCallback((index: number) => { setTab(index >= 5 && index <= 7 ? 'discover' : guideOriginTab.current); }, []);
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState('all');
   const [scene, setScene] = useState('all');
@@ -61,6 +63,15 @@ export default function Dicebound() {
   const [rollResult, setRollResult] = useState<GameMessage | null>(null);
   const feed = useRef<HTMLDivElement>(null);
   const latestRoll = useRef('');
+
+  const readLobbyLocation = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get('tab');
+    setTab(next && ['discover', 'mine', 'saved'].includes(next) ? next : 'map');
+    const world = params.get('scene');
+    setScene(world && ['forest', 'ruins', 'crypt'].includes(world) ? world : 'all');
+    setQuery(''); setLevel('all'); setOnlyAvailable(false);
+  }, []);
 
   const refresh = useCallback(async () => { const data = await api<{ rooms: RoomSummary[] }>('/rooms'); setRooms(data.rooms); }, []);
   const goRoom = useCallback(async (id: string, replace = false) => {
@@ -86,11 +97,12 @@ export default function Dicebound() {
         try { setSaved(JSON.parse(localStorage.getItem('dicebound-saved') ?? localStorage.getItem('partyquest-saved') ?? '[]')); } catch { /* Keep favorites from before the rename; storage may be disabled. */ }
       } catch (err) { setError((err as Error).message); } finally { if (!cancelled) setReady(true); }
     }
+    readLobbyLocation();
     void init();
-    const onPop = () => { const id = new URLSearchParams(window.location.search).get('room'); if (id) void goRoom(id, true); else setRoom(null); };
+    const onPop = () => { setGuideOpen(false); readLobbyLocation(); const id = new URLSearchParams(window.location.search).get('room'); if (id) void goRoom(id, true); else setRoom(null); };
     window.addEventListener('popstate', onPop);
     return () => { cancelled = true; window.removeEventListener('popstate', onPop); };
-  }, [refresh, goRoom]);
+  }, [refresh, goRoom, readLobbyLocation]);
   useEffect(() => {
     if (room) return;
     const timer = setInterval(() => { void refresh().catch(() => {}); }, 8000);
@@ -110,7 +122,7 @@ export default function Dicebound() {
     };
     return () => { stream.close(); setConnected(false); };
   }, [room?.id]);
-  useEffect(() => { window.scrollTo(0, 0); }, [room?.id]);
+  useEffect(() => { if (!guideOpen) window.scrollTo(0, 0); }, [room?.id, tab]);
   useEffect(() => { if (room && session && !selected) setSelected(session.id); }, [room, session, selected]);
   useEffect(() => { feed.current?.scrollTo({ top: feed.current.scrollHeight, behavior: 'smooth' }); }, [room?.messages.length, feedTab]);
   useEffect(() => { if (!notice) return; const timer = setTimeout(() => setNotice(''), 3500); return () => clearTimeout(timer); }, [notice]);
@@ -125,10 +137,16 @@ export default function Dicebound() {
       return true;
     } catch (err) { setError((err as Error).message); return false; }
   }
-  function home(nextTab = 'discover') { setRoom(null); setTab(nextTab); window.history.pushState({}, '', '/'); void refresh().catch(() => {}); }
+  function home(nextTab = 'map') { browse(nextTab); void refresh().catch(() => {}); }
   function browse(nextTab: string, nextScene = 'all') {
-    setTab(nextTab); setScene(nextScene); setQuery(''); setLevel('all'); setOnlyAvailable(false);
-    requestAnimationFrame(() => document.getElementById('adventures')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' }));
+    const destination = ['discover', 'mine', 'saved'].includes(nextTab) ? nextTab : 'map';
+    setRoom(null); setTab(destination); setScene(nextScene); setQuery(''); setLevel('all'); setOnlyAvailable(false);
+    const params = new URLSearchParams();
+    if (destination !== 'map') params.set('tab', destination);
+    if (nextScene !== 'all') params.set('scene', nextScene);
+    const url = params.size ? '/?' + params.toString() : '/';
+    if (window.location.pathname + window.location.search !== url) window.history.pushState({}, '', url);
+    window.scrollTo(0, 0);
   }
   function bookmark(id: string) {
     const next = saved.includes(id) ? saved.filter(v => v !== id) : [...saved, id];
@@ -174,16 +192,26 @@ export default function Dicebound() {
   return <div className={`app ${room ? 'in-game' : ''}`}>
     <main className="main">
       {!room ? <>
-        <header className="topbar"><a className="lobby-brand" href="/" onClick={e => { e.preventDefault(); home(); window.scrollTo({ top: 0 }); }} aria-label="Dicebound — главная"><Logo/></a><div className="breadcrumbs lobby-breadcrumbs"><Compass size={16}/><span>Таверна</span><ChevronRight size={13}/><b>{tab === 'mine' ? 'Мои приключения' : tab === 'saved' ? 'Избранное' : 'Найти приключение'}</b></div><div className="topbar-right"><button className="lobby-profile" onClick={() => setModal('profile')} aria-label="Открыть профиль персонажа"><Avatar name={session?.name || 'П'}/><span>{session?.name || 'Путник'}</span></button><span className="local-badge"><i/> Локальная версия</span><button data-tour="help" className="icon-button guide-trigger" aria-label="Позвать Финна: подсказки по меню" title="Финн поможет разобраться" onClick={openGuide}><HelpCircle size={19}/></button></div></header>
-        <div className="discovery">
-          <WorldLobby rooms={rooms} myRooms={myRooms} saved={saved} session={session} activeTab={tab} ready={ready} busy={busy} onBrowse={browse} onJoin={id => void goRoom(id)} onCreate={() => setModal('create')} onProfile={() => setModal('profile')} onGuide={openGuide}/>
-          <section className="discovery-section" id="adventures">
-            <div className="section-heading"><div><div className="eyebrow">НАЙДИТЕ СВОЮ КОМПАНИЮ</div><h2>{tab === 'mine' ? 'Ваши приключения' : tab === 'saved' ? 'Сохранённые истории' : 'Доска приключений'}<span>{filtered.length}</span></h2></div><button data-tour="create" className="button outline create-button" onClick={() => setModal('create')}><Plus size={16}/> Создать лобби</button></div>
+        <header className="topbar"><a className="lobby-brand" href="/" onClick={e => { e.preventDefault(); home(); window.scrollTo({ top: 0 }); }} aria-label="Dicebound — главная"><Logo/></a><div className="breadcrumbs lobby-breadcrumbs"><Compass size={16}/><span>Таверна</span><ChevronRight size={13}/><b>{tab === 'mine' ? 'Ваши приключения' : tab === 'saved' ? 'Сохранённые истории' : tab === 'discover' ? 'Доска приключений' : 'Карта мира'}</b></div><div className="topbar-right"><button data-tour="profile" className="lobby-profile" onClick={() => setModal('profile')} aria-label="Открыть профиль персонажа"><Avatar name={session?.name || 'П'}/><span>{session?.name || 'Путник'}</span></button><span className="local-badge"><i/> Локальная версия</span><button data-tour="help" className="icon-button guide-trigger" aria-label="Позвать Финна: подсказки по меню" title="Финн поможет разобраться" onClick={openGuide}><HelpCircle size={19}/></button></div></header>
+        <nav className="lobby-tabs" aria-label="Разделы Dicebound" data-tour="navigation">
+          {[
+            { id: 'map', label: 'Карта мира', Icon: Map },
+            { id: 'discover', label: 'Доска приключений', Icon: Compass },
+            { id: 'mine', label: 'Ваши приключения', Icon: BookOpen },
+            { id: 'saved', label: 'Сохранённые истории', Icon: Star },
+          ].map(({ id, label, Icon }) => <a key={id} data-tour={id === 'map' ? undefined : id} href={id === 'map' ? '/' : '/?tab=' + id} aria-current={tab === id ? 'page' : undefined} onClick={event => { if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey && event.button === 0) { event.preventDefault(); browse(id); } }}><Icon size={16}/><span>{label}</span>{id === 'mine' && myRooms.length > 0 && <small>{myRooms.length}</small>}{id === 'saved' && saved.length > 0 && <small>{rooms.filter(r => saved.includes(r.id)).length}</small>}</a>)}
+        </nav>
+        <div className={`discovery ${tab !== 'map' ? 'catalog-view' : ''}`}>
+          <div className="home-panel" hidden={tab !== 'map'}>
+            <WorldLobby rooms={rooms} myRooms={myRooms} saved={saved} session={session} ready={ready} onBrowse={browse} onCreate={() => setModal('create')} onProfile={() => setModal('profile')} onGuide={openGuide}/>
+            <AdventureTrail onBrowse={() => browse('discover')} onProfile={() => setModal('profile')} onCreate={() => setModal('create')}/>
+          </div>
+          {tab !== 'map' && <section className="discovery-section" id="adventures" aria-labelledby="catalog-title">
+            <div className="section-heading"><div><div className="eyebrow">НАЙДИТЕ СВОЮ КОМПАНИЮ</div><h1 id="catalog-title">{tab === 'mine' ? 'Ваши приключения' : tab === 'saved' ? 'Сохранённые истории' : 'Доска приключений'}<span>{filtered.length}</span></h1></div><button data-tour="create" className="button outline create-button" onClick={() => setModal('create')}><Plus size={16}/> Создать лобби</button></div>
             <div data-tour="filters" className="filters"><label className="search"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Название, история или ведущий…" aria-label="Поиск приключений"/>{query && <button aria-label="Очистить поиск" onClick={() => setQuery('')}><X size={14}/></button>}</label><label className="select-wrap"><Shield size={15}/><select aria-label="Уровень опыта" value={level} onChange={e => setLevel(e.target.value)}><option value="all">Любой опыт</option><option value="beginner">Для новичков</option><option value="experienced">Для опытных</option></select></label><label className="select-wrap"><Map size={15}/><select aria-label="Мир приключения" value={scene} onChange={e => setScene(e.target.value)}><option value="all">Все миры</option><option value="ruins">Древние руины</option><option value="forest">Волшебный лес</option><option value="crypt">Подземелья</option></select></label></div>
             <div className="results-line"><span>{tab === 'discover' ? 'Одна встреча. Тысяча возможных историй.' : 'Следующая глава ждёт вас.'}</span><label><input type="checkbox" checked={onlyAvailable} onChange={e => setOnlyAvailable(e.target.checked)}/> Есть свободные места</label></div>
-            {!ready ? <div className="empty"><LoaderCircle className="spin"/><h3>Зажигаем огни в таверне…</h3></div> : filtered.length === 0 ? <div className="empty"><Compass size={34}/><h3>{tab === 'mine' ? 'Ваше приключение ещё впереди' : tab === 'saved' ? 'Сохраните историю на потом' : 'Пока ни одного приключения'}</h3><p>{tab === 'saved' ? 'Нажмите на закладку в карточке понравившегося лобби.' : 'Измените фильтры или создайте собственное лобби.'}</p><button className="button outline" onClick={() => { setQuery(''); setLevel('all'); setScene('all'); setOnlyAvailable(false); setTab('discover'); }}>Все приключения <ArrowRight size={15}/></button></div> : <div className="adventure-grid">{filtered.map(r => <article className="adventure-card" key={r.id}><div className={`card-art scene-${r.scene}`}><Landscape scene={r.scene}/><div className="card-art-shade"/><span className={`room-tag ${r.level === 'beginner' ? 'beginner' : ''}`}>{r.level === 'beginner' ? <Leaf size={12}/> : <Swords size={12}/>} {r.level === 'beginner' ? 'Новичкам рады' : 'Для опытных'}</span><button className={`bookmark ${saved.includes(r.id) ? 'bookmarked' : ''}`} aria-label={`${saved.includes(r.id) ? 'Удалить из избранного' : 'В избранное'}: ${r.title}`} aria-pressed={saved.includes(r.id)} onClick={() => bookmark(r.id)}><Star size={16} fill={saved.includes(r.id) ? 'currentColor' : 'none'}/></button><div className="art-bottom"><span>FANTASY · ONE-SHOT</span><span><Users size={13}/> {r.memberCount}/{r.maxPlayers}</span></div></div><div className="card-content"><h3>{r.title}</h3><p>{r.description}</p><div className="card-metadata"><span><Clock3 size={13}/> {r.duration}</span><span><MessageCircle size={13}/> Русский</span><span><Dice5 size={13}/> D&D</span></div><div className="card-bottom"><span className="host"><Avatar small name={r.hostName}/><span><small>{r.memberCount ? 'Ведущий' : 'Открытая комната'}</small><b>{r.memberCount ? r.hostName : 'Создайте свой отряд'}</b></span></span><button className="join-button" aria-label={`Войти: ${r.title}`} disabled={busy || (r.memberCount >= r.maxPlayers && !r.members.some(m => m.id === session?.id))} onClick={() => void goRoom(r.id)}>{r.members.some(m => m.id === session?.id) ? 'Продолжить' : r.memberCount >= r.maxPlayers ? 'Мест нет' : 'Войти'} <ArrowRight size={14}/></button></div></div></article>)}</div>}
-          </section>
-          <AdventureTrail onBrowse={() => browse('discover')} onProfile={() => setModal('profile')} onCreate={() => setModal('create')}/>
+            {!ready ? <div className="empty"><LoaderCircle className="spin"/><h3>Зажигаем огни в таверне…</h3></div> : filtered.length === 0 ? <div className="empty"><Compass size={34}/><h3>{tab === 'mine' ? 'Ваше приключение ещё впереди' : tab === 'saved' ? 'Сохраните историю на потом' : 'Пока ни одного приключения'}</h3><p>{tab === 'saved' ? 'Нажмите на закладку в карточке понравившегося лобби.' : 'Измените фильтры или создайте собственное лобби.'}</p><button className="button outline" onClick={() => browse('discover')}>Все приключения <ArrowRight size={15}/></button></div> : <div className="adventure-grid">{filtered.map(r => <article className="adventure-card" key={r.id}><div className={`card-art scene-${r.scene}`}><Landscape scene={r.scene}/><div className="card-art-shade"/><span className={`room-tag ${r.level === 'beginner' ? 'beginner' : ''}`}>{r.level === 'beginner' ? <Leaf size={12}/> : <Swords size={12}/>} {r.level === 'beginner' ? 'Новичкам рады' : 'Для опытных'}</span><button className={`bookmark ${saved.includes(r.id) ? 'bookmarked' : ''}`} aria-label={`${saved.includes(r.id) ? 'Удалить из избранного' : 'В избранное'}: ${r.title}`} aria-pressed={saved.includes(r.id)} onClick={() => bookmark(r.id)}><Star size={16} fill={saved.includes(r.id) ? 'currentColor' : 'none'}/></button><div className="art-bottom"><span>FANTASY · ONE-SHOT</span><span><Users size={13}/> {r.memberCount}/{r.maxPlayers}</span></div></div><div className="card-content"><h3>{r.title}</h3><p>{r.description}</p><div className="card-metadata"><span><Clock3 size={13}/> {r.duration}</span><span><MessageCircle size={13}/> Русский</span><span><Dice5 size={13}/> D&D</span></div><div className="card-bottom"><span className="host"><Avatar small name={r.hostName}/><span><small>{r.memberCount ? 'Ведущий' : 'Открытая комната'}</small><b>{r.memberCount ? r.hostName : 'Создайте свой отряд'}</b></span></span><button className="join-button" aria-label={`Войти: ${r.title}`} disabled={busy || (r.memberCount >= r.maxPlayers && !r.members.some(m => m.id === session?.id))} onClick={() => void goRoom(r.id)}>{r.members.some(m => m.id === session?.id) ? 'Продолжить' : r.memberCount >= r.maxPlayers ? 'Мест нет' : 'Войти'} <ArrowRight size={14}/></button></div></div></article>)}</div>}
+          </section>}
           <footer className="page-footer"><span>Dicebound <span>✧</span> Истории создаются вместе.</span><span>Локальный прототип · v0.1</span></footer>
         </div>
       </> : session && <>
@@ -206,7 +234,7 @@ export default function Dicebound() {
     {modal === 'create' && <Modal title="Соберите свой отряд" subtitle="Хорошему приключению нужен только первый шаг." onClose={() => setModal(null)}><form className="modal-form" onSubmit={create}><label>Название приключения<input name="title" required minLength={3} maxLength={80} placeholder="Например, Тайна забытого маяка" autoFocus/></label><label>О чём будет ваша история?<textarea name="description" maxLength={500} rows={3} placeholder="Заинтригуйте будущих героев…"/></label><div className="form-row"><label>Мир<select name="scene"><option value="ruins">Древние руины</option><option value="forest">Волшебный лес</option><option value="crypt">Подземелья</option></select></label><label>Опыт игроков<select name="level"><option value="beginner">Новичкам рады</option><option value="experienced">Для опытных</option></select></label></div><div className="form-row"><label>Мест за столом<select name="maxPlayers" defaultValue="4">{[2,3,4,5,6].map(n => <option key={n} value={n}>{n} участников, включая вас</option>)}</select></label><label>Длительность<select name="duration"><option>2–3 часа</option><option>До 1 часа</option><option>3–4 часа</option><option>Длинная кампания</option></select></label></div><p className="form-note"><Crown size={16}/> Вы станете ведущим. Карта, чат и кубики уже готовы.</p><button className="button gold full" disabled={busy}>{busy ? 'Открываем врата…' : 'Создать приключение'}<ArrowRight size={17}/></button></form></Modal>}
     {modal === 'profile' && <Modal title="Как зовут вашего героя?" subtitle="Отряд узнает вас по этому имени." onClose={() => setModal(null)}><form className="modal-form" onSubmit={profile}><label>Имя персонажа<input name="name" autoFocus required minLength={2} maxLength={24} defaultValue={session?.name} placeholder="Ваше имя в приключении"/></label><label>Класс персонажа<select name="className" defaultValue={session?.className || 'Следопыт'}>{['Воин','Маг','Плут','Следопыт','Жрец','Бард'].map(c => <option key={c}>{c}</option>)}</select></label><p className="form-note"><Shield size={18}/> Пока это гостевой профиль в этом браузере. В комнатах используется простой жетон персонажа с 20 очками здоровья.</p><button className="button gold full" disabled={busy}>Сохранить персонажа <Check size={16}/></button></form></Modal>}
     {ready && guideWelcomeOpen && !guideOpen && !modal && <GuideWelcome onStart={openGuide} onDismiss={dismissGuideWelcome}/>}
-    {guideOpen && <GuideTour key={room?.id || 'tavern'} mode={room ? 'tabletop' : 'tavern'} isHost={isHost} onClose={closeGuide}/>}
+    {guideOpen && <GuideTour key={room?.id || 'tavern'} mode={room ? 'tabletop' : 'tavern'} isHost={isHost} onClose={closeGuide} onStepChange={room ? undefined : revealGuideStep}/>}
     {error && <div className="toast error" role="alert"><span>{error}</span><button aria-label="Закрыть ошибку" onClick={() => setError('')}><X size={17}/></button></div>}
     {notice && <div className="toast" role="status"><Check size={17}/><span>{notice}</span></div>}
   </div>;

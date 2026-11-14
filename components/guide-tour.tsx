@@ -65,7 +65,7 @@ function Finn() {
   </svg>;
 }
 
-export function GuideTour({ mode, isHost, onClose }: { mode: 'tavern' | 'tabletop'; isHost: boolean; onClose: () => void }) {
+export function GuideTour({ mode, isHost, onClose, onStepChange }: { mode: 'tavern' | 'tabletop'; isHost: boolean; onClose: () => void; onStepChange?: (index: number) => void }) {
   const steps = useMemo(() => getGuideSteps(mode, isHost), [mode, isHost]);
   const [index, setIndex] = useState(0);
   const [layout, setLayout] = useState<Layout | null>(null);
@@ -158,8 +158,8 @@ export function GuideTour({ mode, isHost, onClose }: { mode: 'tavern' | 'tableto
   }, [step]);
 
   const close = () => { voice.stop(); onClose(); };
-  const next = () => { voice.stop(); if (last) onClose(); else setIndex(value => value + 1); };
-  const previous = () => { if (index > 0) { voice.stop(); setIndex(value => value - 1); } };
+  const next = () => { voice.stop(); if (last) onClose(); else { onStepChange?.(index + 1); setIndex(value => value + 1); } };
+  const previous = () => { if (index > 0) { voice.stop(); onStepChange?.(index - 1); setIndex(value => value - 1); } };
   return createPortal(<dialog ref={dialog} className="guide-tour" aria-labelledby="guide-title" aria-describedby="guide-description" onCancel={event => { event.preventDefault(); close(); }} onKeyDown={event => {
     if (event.key === 'ArrowRight') { event.preventDefault(); next(); }
     if (event.key === 'ArrowLeft') { event.preventDefault(); previous(); }
