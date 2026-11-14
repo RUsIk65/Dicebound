@@ -1,0 +1,128 @@
+[
+  {
+    "file": "tavern-common-1.wav",
+    "seconds": 12.56,
+    "textSha256": "3e1fde4357c168890dd50d789b408b530f2f8d8eeaaf83d12364103d269f53d7",
+    "audioSha256": "6764c1ca5b955f990f356336f7bd156a211f17d0fd098b51a7c37968f4459d42"
+  },
+  {
+    "file": "tavern-common-2.wav",
+    "seconds": 10.33,
+    "textSha256": "44e0a3121411b903cb2d27e564f94930f784d298961fc92e7a40753e28fb7a4c",
+    "audioSha256": "9007bf70a3a7d7d989a3095b7bb1893ebab9b6fee970acbe915955e5db90efdf"
+  },
+  {
+    "file": "tavern-common-3.wav",
+    "seconds": 10.23,
+    "textSha256": "0c3118573778a8668bf66afc7fc4f9b4478f70935cf6c1c6723ed5cd30e4b165",
+    "audioSha256": "1b02fb46c3c04a2f0e2d3d919891c435c5a90a6b91e43e3b4e902ceabb5dcfc6"
+  },
+  {
+    "file": "tavern-common-4.wav",
+    "seconds": 12.06,
+    "textSha256": "b882a8d28dacb5bfb6c5b2ed49879fd62981d8679981c37f064eb8dc20acfa9b",
+    "audioSha256": "ad855aebaa0534e082790d61d5172ffab5833ba5a1b20e4f8c3a3fc2bfab6894"
+  },
+  {
+    "file": "tavern-common-5.wav",
+    "seconds": 11.04,
+    "textSha256": "5117c6349a214ba4abf251ba06dd31c05cadeeebead7e16ccfde467c591f1cee",
+    "audioSha256": "3e82a41a4525643232fd96b3feceb939195532a8b58686e8b9a4f02c21504522"
+  },
+  {
+    "file": "tavern-common-6.wav",
+    "seconds": 11.54,
+    "textSha256": "bcea767cad22fdbff2468b4998fe8e4ac2e195344beb63fe78f363ecd1cacf19",
+    "audioSha256": "086ad779f1cf905e691d14f09aa02a21ff493a82a651910212d8a15eb71e85c0"
+  },
+  {
+    "file": "tavern-common-7.wav",
+    "seconds": 11.1,
+    "textSha256": "0078c4c3f8d9207b12dd36158d0dbb7a3eecab67547bda30981336d0c672df99",
+    "audioSha256": "6a484588c1602087d688f6486b5c385d000ee2334d28c9d57ee2753f86335c32"
+  },
+  {
+    "file": "tavern-common-8.wav",
+    "seconds": 13.04,
+    "textSha256": "2e26cb1179a36282471b8e593237bd2acb0c465d187cc17e1c2f466af890b6c1",
+    "audioSha256": "a182898d8f9bee18791640674a319b7c4bd49c2081ff3ffa2094a56f74a03772"
+  },
+  {
+    "file": "tavern-common-9.wav",
+    "seconds": 12.33,
+    "textSha256": "ecd2e2e90576c969dc253aba97b7b19d3dff5e1c971fb0f2b408341f81a496e9",
+    "audioSha256": "ddbc129e2c2b2718fcd1267f079dfb26314ebb6a36ae09dec2abe9fbfb6cacb5"
+  },
+  {
+    "file": "tabletop-common-1.wav",
+    "seconds": 12.03,
+    "textSha256": "24a7e5662a8e6489fefc593610198a80786d6866bb3d151ec7ae1321e6e8b1f1",
+    "audioSha256": "ce27c13ef1f493483fbcec8f903a501bf2b72b981978a9ba110cf4a4ec3d3a66"
+  },
+  {
+    "file": "tabletop-host-2.wav",
+    "seconds": 13.26,
+    "textSha256": "ae25baeb5c52901e262266431e3fe765f8a8dbdc80f44b72c0a4be34eb8e52e9",
+    "audioSha256": "37fd98e6d18c36a01cb669471515058f00380f59524cc641fed3ce8bf613fc60"
+  },
+  {
+    "file": "tabletop-common-3.wav",
+    "seconds": 11.64,
+    "textSha256": "c9ab1a31926c53f2809d0daac6d20ddba446ccade31c4bcd0dbc31cb05b469f3",
+    "audioSha256": "c037e9d5092a97b3c14daac756689e59a505c9569fb0e4edb9d11898bbb16a5a"
+  },
+  {
+    "file": "tabletop-common-4.wav",
+    "seconds": 12.63,
+    "textSha256": "2781920083c6e892c011a0913018fdcf270a21cc97d5b3a377ddfa32face21fd",
+    "audioSha256": "7da900427f60428c65f4eedb087c4f3ae2a7947bc478803685335a1cf3cb6e3c"
+  },
+  {
+    "file": "tabletop-common-5.wav",
+    "seconds": 12.43,
+    "textSha256": "930386be9d042d45c6f987831209a55f1fb494165e611aa60ab32aafba207a5a",
+    "audioSha256": "f865e498fb6a9f77323dd0e4919db6b8b42c5b9a1636570abfeee44753b22d73"
+  },
+  {
+    "file": "tabletop-host-6.wav",
+    "seconds": 13.06,
+    "textSha256": "d6a5e9bc40319e6d58c86a6dfdfd95d1cca345082371b540effd974176c76563",
+    "audioSha256": "22dccd95412bc44b1162c6901970a0435b5cc02079925f81860fa6d06d452cbc"
+  },
+  {
+    "file": "tabletop-host-7.wav",
+    "seconds": 11.62,
+    "textSha256": "5ff9a31c67c40044a90f5fd79bc2c82c967a7898f9440ddbef80f6c4f8f85983",
+    "audioSha256": "9c1ea96ca853aac90d9b8ffd55be34b39a4ebd0de1c7e5cd1583b202b424fa33"
+  },
+  {
+    "file": "tabletop-common-8.wav",
+    "seconds": 12.92,
+    "textSha256": "d136d5bbd8dc9665f1dcb723e04a8af899d0960c7c9b0ee25f66b211897cefe1",
+    "audioSha256": "423efdc48d92c1c3763a3384d1c5b1d09774ab569a93728482d89d13c8fa2322"
+  },
+  {
+    "file": "tabletop-common-9.wav",
+    "seconds": 13.0,
+    "textSha256": "adab7ded9ac97996390e7ce382a65b50966d62bb3f5cf56e9ca52d699cca4313",
+    "audioSha256": "bdd01e5c7259dcbfb2fa97cb9d48eb27677fd9f4fb638cd7d6a30dba776a50af"
+  },
+  {
+    "file": "tabletop-player-2.wav",
+    "seconds": 14.7,
+    "textSha256": "0bd874b990448025f51fc04e8b4fd6f3ebedfba01dae68d175b6bdc8452fb425",
+    "audioSha256": "7c4cda1d750291e6e7f61ca683d9fa9e83716903a861a3ba4f69a5ea9248ec4c"
+  },
+  {
+    "file": "tabletop-player-6.wav",
+    "seconds": 13.86,
+    "textSha256": "a5affd385ae4588b4636e46fcaf71428a519e5b7411758f5b8d23a3c92ffec91",
+    "audioSha256": "c4d142c8824d9d0e24a4c84193e24aabd7a76dcf77a5cf03a4713c51b513f5ed"
+  },
+  {
+    "file": "tabletop-player-7.wav",
+    "seconds": 12.28,
+    "textSha256": "7be7b413188ecc0f79e0aeb924db80af659ac165d5ff82a38d4a90e1865cf735",
+    "audioSha256": "6697fd02a6369ded28211245e6b0e0e7ac44e244bd3f3b4f984f53393db4da34"
+  }
+]

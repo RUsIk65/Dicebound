@@ -1,0 +1,28 @@
+/* Obsidian, garnet resin and antique gold, inspired by the supplied dice. */
+:root{--bg:#100c0e;--panel:#1b1417;--panel-2:#261a1f;--border:#3e2a31;--text:#f0e7db;--muted:#b1a09c;--gold:#d5ad70;--gold-dark:#2b1b18;--green:#bea99b}
+body{background:radial-gradient(ellipse at 90% 0,#471a252c,transparent 55%),var(--bg)}
+.sidebar{background:linear-gradient(180deg,#160f13,#110e10);border-color:#38252d}
+.topbar{background:#110d10a6}.logo>span{color:#f1e5d4}.logo small{color:#a28d83}
+.nav-item.active{background:linear-gradient(100deg,#4b222c,#2b1920);border-color:#79503d;color:#efcf9b}
+.nav-item:hover{background:#2b1b22}.host-promo{background:radial-gradient(ellipse at top right,#71333e40,transparent 80%),#21151b;border-color:#493039}
+.local-badge,.connection{color:#baa494}.local-badge i,.connection i{background:#d1a965;box-shadow:0 0 8px #d1a96540}
+.hero{height:370px;background:#140e12;border:1px solid #674339;box-shadow:0 18px 50px #0003,inset 0 1px #edd3b012}
+.hero-dice-art{position:absolute;inset:0 0 0 31%;overflow:hidden}
+.hero-dice-art img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;filter:brightness(.96) saturate(.9);display:block}
+.hero-shade{background:linear-gradient(90deg,#160f13 0%,#160f13fa 24%,#160f13cb 43%,#160f1320 70%),linear-gradient(0deg,#110b10a6,transparent 45%)}
+.hero-content{padding:39px 38px}.hero h1{font-size:41px;color:#f3e8d8;text-shadow:0 2px 15px #0003}.hero p{color:#c3b3aa}.hero .eyebrow{color:#d0ab80}.hero-caption{color:#e1c5a3}.hero-caption>span{color:#c4a58a}
+.button.gold{background:linear-gradient(135deg,#8e3548,#632332);border-color:#b48055;color:#f8e7d0;box-shadow:0 4px 16px #38061045,inset 0 1px #f2c39826}
+.button.gold:hover{background:linear-gradient(135deg,#a94457,#7c2c3f);border-color:#e1ba80}.button.outline,.button.glass{background:#20151b9c;border-color:#664139;color:#e6d5c5}.button.outline:hover,.button.glass:hover{background:#3a222c;border-color:#b08157}
+.search,.select-wrap{background:#1b1418;border-color:#473039}.search:focus-within{border-color:#c79c64}
+.adventure-card{background:linear-gradient(155deg,#25191e,#1a1317);border-color:#4b313a;box-shadow:0 6px 20px #0002}.adventure-card:hover{border-color:#a57653;box-shadow:0 12px 28px #0004}
+.card-art-shade{background:linear-gradient(0deg,#25191ef5,transparent 75%)}.card-content h3{color:#efdfca}.card-content>p{color:#baaaa3}.card-metadata{color:#c0a99b}.card-bottom{border-color:#483039}
+.room-tag,.room-tag.beginner{background:#27151fe8;border-color:#b58c5d7a;color:#eed0a1}.bookmark:hover,.bookmark.bookmarked{background:#572a38;color:#efd1a0}
+.join-button{background:#4f2433;border-color:#966544;color:#f1cd99}.join-button:hover{background:#793447;border-color:#d0a36b}
+.how-strip{background:linear-gradient(110deg,#321b25,#1a1217);border-color:#55383d}.outlined-die{border-color:#8c6648;color:#d7ad73}.how-strip p,.page-footer{color:#a59288}
+.game-header,.party-panel,.chat-panel{background:#181115}.table-panel{background:#120d10}.map-wrapper{background:#181014}.table-toolbar,.character-bar,.dice-tray{background:#21161c}.panel-heading{color:#ead9c8}
+.dice-glyph{display:block;width:34px;height:37px;overflow:visible;filter:drop-shadow(0 3px 3px #0008);transition:transform .2s,filter .2s}
+.dice-choices button.active{background:#522334;border-color:#b48a58;color:#f4d7a7}.dice-choices button:hover .dice-glyph{transform:translateY(-2px)}.dice-choices button.active .dice-glyph{filter:drop-shadow(0 0 6px #ce6a6550)}
+.roll-overlay{background:radial-gradient(ellipse,#4b172aeb,#180f17f0);border-color:#c99b61}.modal{border-color:#674139;background:#21161c}.modal-form input,.modal-form textarea,.modal-form select{background:#171014;border-color:#52363d}
+.guide-speech{background:radial-gradient(ellipse at top left,#77364438,transparent 85%),#24161d;border-color:#b08b59}
+@media(max-width:980px){.hero{height:360px}.hero h1{font-size:37px}.hero-dice-art{left:20%}}
+@media(max-width:640px){.hero{height:398px}.hero-content{padding:28px 19px}.hero h1{font-size:29px}.hero-dice-art{left:0;opacity:.7}.hero-dice-art img{object-position:53% 40%}.hero-shade{background:linear-gradient(90deg,#160f13ee,#160f1394),linear-gradient(0deg,#160f13a8,transparent)}.hero-caption{right:15px;bottom:13px}.hero-caption>span{font-size:7px}.hero-caption b{display:none}.dice-glyph{width:30px;height:33px}}
